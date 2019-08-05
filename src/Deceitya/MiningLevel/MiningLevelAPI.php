@@ -4,6 +4,7 @@ namespace Deceitya\MiningLevel;
 
 use pocketmine\Player;
 
+use Deceitya\MiningLevel\MiningLevelSystem;
 use Deceitya\MiningLevel\Database\SQLiteDatabase;
 
 class MiningLevelAPI
@@ -123,7 +124,7 @@ class MiningLevelAPI
      * @param string|Player $player
      * @return integer|null
      */
-    public function getUpExp($player): ?int
+    public function getLevelUpExp($player): ?int
     {
         if ($player instanceof Player) {
             $player = $player->getName();
@@ -138,7 +139,7 @@ class MiningLevelAPI
      * @param integer $upexp
      * @return void
      */
-    public function setUpExp($player, int $upexp)
+    public function setLevelUpExp($player, int $upexp)
     {
         if ($player instanceof Player) {
             $player = $player->getName();
