@@ -1,0 +1,9 @@
+name: MiningLevelSystem
+main: Deceitya\MiningLevel\MiningLevelSystem
+version: 1.0.0
+api: 3.9.0
+
+load: POSTWORLD
+author: deceitya
+description: 採掘レベルシステム
+website: https://github.com/deceitya/MiningLevelSystem
