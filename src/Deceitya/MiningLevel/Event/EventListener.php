@@ -36,8 +36,10 @@ class EventListener implements Listener
      */
     public function onBlockBreak(BlockBreakEvent $event)
     {
-        $api = MiningLevelAPI::getInstance();
         $player = $event->getPlayer();
+        if ($player->getGamemode() != 0) return;
+
+        $api = MiningLevelAPI::getInstance();
         $block = $event->getBlock();
         $exp = $api->getExp($player) + $this->config->get($block->getId() . ':' . $block->getDamage(), $this->config->get('default', 0));
 
@@ -53,7 +55,7 @@ class EventListener implements Listener
 
         if ($up > 0) {
             $name = $player->getName();
-            $player->getServer()->broadcastMessage("[§bMiningLevelSystem§f] {$name}がレベルアップ！ （{$originalLevel} -> {$level}）");
+            $player->getServer()->broadcastMessage("[§bMiningLevelSystem§f] {$name}がレベルアップ！ ({$originalLevel} -> {$level})");
             (new MiningLevelUpEvent($player, $originalLevel, $level))->call();
         }
 
