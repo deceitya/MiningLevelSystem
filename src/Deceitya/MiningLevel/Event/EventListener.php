@@ -39,24 +39,25 @@ class EventListener implements Listener
         $api = MiningLevelAPI::getInstance();
         $player = $event->getPlayer();
         $block = $event->getBlock();
-        $exp = $this->config->get($block->getId() . ':' . $block->getDamage(), $this->config->get('default', 0));
+        $exp = $api->getExp($player) + $this->config->get($block->getId() . ':' . $block->getDamage(), $this->config->get('default', 0));
 
         $up = 0;
-        $level = $api->getLevel($player);
+        $originalLevel = $api->getLevel($player);
+        $level = $originalLevel;
         $upexp = $api->getLevelUpExp($player);
         for ($up = 0; $exp >= $upexp; $up++) {
             $exp -= $upexp;
             $upexp += $level;
+            $level++;
         }
-        $levelup = $level + $up;
 
         if ($up > 0) {
             $name = $player->getName();
-            $player->getServer()->broadcastMessage("[§bMiningLevelSystem§f] {$name}がレベルアップ！　（{$level} -> {$levelup}）");
-            (new MiningLevelUpEvent($player, $level, $levelup))->call();
+            $player->getServer()->broadcastMessage("[§bMiningLevelSystem§f] {$name}がレベルアップ！ （{$originalLevel} -> {$level}）");
+            (new MiningLevelUpEvent($player, $originalLevel, $level))->call();
         }
 
-        $api->setLevel($player, $levelup);
+        $api->setLevel($player, $level);
         $api->setExp($player, $exp);
         $api->setLevelUpExp($player, $upexp);
     }
