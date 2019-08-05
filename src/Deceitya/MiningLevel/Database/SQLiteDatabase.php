@@ -3,6 +3,7 @@
 namespace Deceitya\MiningLevel\Database;
 
 use Deceitya\MiningLevel\MiningLevelSystem;
+use SQLite3;
 
 class SQLiteDatabase
 {
