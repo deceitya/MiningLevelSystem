@@ -12,12 +12,12 @@ use Deceitya\MiningLevel\Event\MiningLevelUpEvent;
 
 class EventListener implements Listener
 {
-    /** @var Config */
+    /** @var array */
     private $config;
 
     public function __construct(Config $config)
     {
-        $this->config = $config;
+        $this->config = $config->getAll();
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event)
@@ -37,11 +37,14 @@ class EventListener implements Listener
     public function onBlockBreak(BlockBreakEvent $event)
     {
         $player = $event->getPlayer();
-        if ($player->getGamemode() != 0) return;
+        if ($player->getGamemode() != 0) {
+            return;
+        }
 
         $api = MiningLevelAPI::getInstance();
         $block = $event->getBlock();
-        $exp = $api->getExp($player) + $this->config->get($block->getId() . ':' . $block->getDamage(), $this->config->get('default', 0));
+        $exp = $this->config[$block->getId() . ':' . $block->getDamage()] ?? $this->config['default'] ?? 0;
+        $exp += $api->getExp($player);
 
         $up = 0;
         $originalLevel = $api->getLevel($player);
