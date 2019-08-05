@@ -48,12 +48,15 @@ class EventListener implements Listener
             $exp -= $upexp;
             $upexp += $level;
         }
+        $levelup = $level + $up;
 
         if ($up > 0) {
-            (new MiningLevelUpEvent($player, $level, $up))->call();
+            $name = $player->getName();
+            $player->getServer()->broadcastMessage("[§bMiningLevelSystem§f] {$name}がレベルアップ！　（{$level} -> {$levelup}）");
+            (new MiningLevelUpEvent($player, $level, $levelup))->call();
         }
 
-        $api->setLevel($player, $level + $up);
+        $api->setLevel($player, $levelup);
         $api->setExp($player, $exp);
         $api->setLevelUpExp($player, $upexp);
     }
