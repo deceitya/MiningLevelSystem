@@ -7,3 +7,13 @@ load: POSTWORLD
 author: deceitya
 description: 採掘レベルシステム
 website: https://github.com/deceitya/MiningLevelSystem
+
+commands:
+ milevel:
+  description: MiningLevelSystemのコマンド
+  usage: "/milevel <status>"
+  permission: mining.command.milevel
+permissions:
+ mining.command.milevel:
+  description: "Allows the user to run the milevel command"
+  default: true
