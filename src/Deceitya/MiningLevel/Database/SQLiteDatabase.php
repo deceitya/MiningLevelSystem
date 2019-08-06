@@ -123,6 +123,18 @@ class SQLiteDatabase
         $stmt->execute();
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function getData(string $name): array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM mining WHERE name = :name");
+        $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+
+        return $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+    }
+
     public function close()
     {
         close($this->db);

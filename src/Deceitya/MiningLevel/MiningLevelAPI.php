@@ -44,10 +44,7 @@ class MiningLevelAPI
      */
     public function createPlayerData($player)
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         if (!$this->playerDataExists($player)) {
             $this->db->createPlayerData($player, 1, 0, 2);
@@ -69,10 +66,7 @@ class MiningLevelAPI
      */
     public function getLevel($player): ?int
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         return $this->db->getLevel($player);
     }
@@ -84,10 +78,7 @@ class MiningLevelAPI
      */
     public function setLevel($player, int $level)
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         if ($this->playerDataExists($player)) {
             $this->db->setLevel($player, $level);
@@ -100,10 +91,7 @@ class MiningLevelAPI
      */
     public function getExp($player): ?int
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         return $this->db->getExp($player);
     }
@@ -115,10 +103,7 @@ class MiningLevelAPI
      */
     public function setExp($player, int $exp)
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         if ($this->playerDataExists($player)) {
             $this->db->setExp($player, $exp);
@@ -131,10 +116,7 @@ class MiningLevelAPI
      */
     public function getLevelUpExp($player): ?int
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         return $this->db->getUpExp($player);
     }
@@ -146,13 +128,34 @@ class MiningLevelAPI
      */
     public function setLevelUpExp($player, int $upexp)
     {
-        if ($player instanceof Player) {
-            $player = $player->getName();
-        }
-        $player = strtolower($player);
+        $player = $this->convert2lower($player);
 
         if ($this->playerDataExists($player)) {
             $this->db->setUpExp($player, $upexp);
         }
+    }
+
+    /**
+     * @param [type] $player
+     * @return array
+     */
+    public function getData($player): array
+    {
+        $player = $this->convert2lower($player);
+
+        return $this->db->getData($player);
+    }
+
+    /**
+     * @param string|Player $player
+     * @return string
+     */
+    private function convert2lower($player): string
+    {
+        if ($player instanceof Player) {
+            $player = $player->getName();
+        }
+
+        return strtolower($player);
     }
 }
