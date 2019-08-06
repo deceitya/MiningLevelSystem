@@ -122,4 +122,9 @@ class SQLiteDatabase
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
         $stmt->execute();
     }
+
+    public function close()
+    {
+        close($this->db);
+    }
 }

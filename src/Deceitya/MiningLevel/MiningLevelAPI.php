@@ -33,6 +33,11 @@ class MiningLevelAPI
         $this->db = new SQLiteDatabase($plugin);
     }
 
+    public function deinit()
+    {
+        $this->db->close();
+    }
+
     /**
      * @param string|Player $player
      * @return void
