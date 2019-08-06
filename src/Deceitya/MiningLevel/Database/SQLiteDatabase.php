@@ -19,12 +19,12 @@ class SQLiteDatabase
         }
 
         $this->db->exec(
-            'CREATE TABLE IF NOT EXISTS mining (
-            name TEXT NOT NULL PRIMARY KEY,
-            level INTEGER NOT NULL,
-            exp INTEGER NOT NULL,
-            upexp INTEGER NOT NULL
-            )'
+            'CREATE TABLE IF NOT EXISTS mining ('.
+            'name TEXT NOT NULL PRIMARY KEY,'.
+            'level INTEGER NOT NULL,'.
+            'exp INTEGER NOT NULL,'.
+            'upexp INTEGER NOT NULL'.
+            ')'
         );
     }
 
@@ -132,13 +132,14 @@ class SQLiteDatabase
         $stmt = $this->db->prepare("SELECT * FROM mining WHERE name = :name");
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
 
-        return $stmt->execute()->fetchArray(SQLITE3_ASSOC) ?? [];
+        $result = $stmt->execute()->fetchArray(SQLITE3_NUM);
+        return $result === false ? [] : $result;
     }
 
     public function close()
     {
         if ($this->db instanceof SQLite3) {
-            close($this->db);
+            $this->db->close();
         }
     }
 }
