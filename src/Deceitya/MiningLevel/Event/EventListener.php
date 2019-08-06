@@ -43,8 +43,7 @@ class EventListener implements Listener
 
         $api = MiningLevelAPI::getInstance();
         $block = $event->getBlock();
-        $exp = $this->config[$block->getId() . ':' . $block->getDamage()] ?? $this->config['default'] ?? 0;
-        $exp += $api->getExp($player);
+        $exp = ($this->config[$block->getId() . ':' . $block->getDamage()] ?? $this->config['default'] ?? 0) + $api->getExp($player);
 
         $up = 0;
         $originalLevel = $api->getLevel($player);
