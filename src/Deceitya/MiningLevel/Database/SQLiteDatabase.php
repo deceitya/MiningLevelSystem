@@ -132,11 +132,13 @@ class SQLiteDatabase
         $stmt = $this->db->prepare("SELECT * FROM mining WHERE name = :name");
         $stmt->bindValue(':name', $name, SQLITE3_TEXT);
 
-        return $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+        return $stmt->execute()->fetchArray(SQLITE3_ASSOC) ?? [];
     }
 
     public function close()
     {
-        close($this->db);
+        if ($this->db instanceof SQLite3) {
+            close($this->db);
+        }
     }
 }
