@@ -31,7 +31,7 @@ class EventListener implements Listener
     }
 
     /**
-     * @priority HIGH
+     * @priority MONITOR
      * @ignoreCancelled
      */
     public function onBlockBreak(BlockBreakEvent $event)
